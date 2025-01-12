@@ -1,30 +1,21 @@
 provider "aws" {
-  region = "ap-south-1"
+  region = "ap-south-1"  # Specify the AWS region
 }
 
-# VPC
-resource "aws_vpc" "main" {
-  cidr_block           = "10.0.0.0/16"
-  enable_dns_support   = true
+resource "aws_vpc" "my_vpc" {
+  cidr_block = "10.0.0.0/16"  # CIDR block for the VPC
+  enable_dns_support = true
   enable_dns_hostnames = true
-
   tags = {
-    Name = "MySimpleVPC"
+    Name = "simple-vpc"
   }
 }
 
-# Subnet
-resource "aws_subnet" "public" {
-  vpc_id                  = aws_vpc.main.id
-  cidr_block              = "10.0.1.0/24"
-  map_public_ip_on_launch = true
-
+resource "aws_subnet" "my_subnet" {
+  vpc_id            = aws_vpc.my_vpc.id
+  cidr_block        = "10.0.1.0/24"  # Subnet CIDR block
+  availability_zone = "us-east-1a"    # Specify the availability zone
   tags = {
-    Name = "SimplePublicSubnet"
+    Name = "simple-subnet"
   }
 }
-
-output "vpc_id" {
-  value = aws_vpc.main.id
-}
-
